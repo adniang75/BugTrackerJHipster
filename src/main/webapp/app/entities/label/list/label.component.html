@@ -1,0 +1,71 @@
+<div>
+    <h2 data-cy="LabelHeading" id="page-heading">
+        <span jhiTranslate="bugTrackerJHipsterApp.label.home.title">Labels</span>
+
+        <div class="d-flex justify-content-end">
+            <button (click)="loadAll()" [disabled]="isLoading" class="btn btn-info mr-2">
+                <fa-icon [spin]="isLoading" icon="sync"></fa-icon>
+                <span jhiTranslate="bugTrackerJHipsterApp.label.home.refreshListLabel">Refresh List</span>
+            </button>
+
+            <button
+                [routerLink]="['/label/new']"
+                class="btn btn-primary jh-create-entity create-label"
+                data-cy="entityCreateButton"
+                id="jh-create-entity"
+            >
+                <fa-icon icon="plus"></fa-icon>
+                <span jhiTranslate="bugTrackerJHipsterApp.label.home.createLabel"> Create a new Label </span>
+            </button>
+        </div>
+    </h2>
+
+    <jhi-alert-error></jhi-alert-error>
+
+    <jhi-alert></jhi-alert>
+
+    <div *ngIf="labels?.length === 0" class="alert alert-warning" id="no-result">
+        <span jhiTranslate="bugTrackerJHipsterApp.label.home.notFound">No labels found</span>
+    </div>
+
+    <div *ngIf="labels && labels.length > 0" class="table-responsive" id="entities">
+        <table aria-describedby="page-heading" class="table table-striped">
+            <thead>
+                <tr>
+                    <th scope="col"><span jhiTranslate="global.field.id">ID</span></th>
+                    <th scope="col"><span jhiTranslate="bugTrackerJHipsterApp.label.label">Label</span></th>
+                    <th scope="col"></th>
+                </tr>
+            </thead>
+            <tbody>
+                <tr *ngFor="let label of labels; trackBy: trackId" data-cy="entityTable">
+                    <td>
+                        <a [routerLink]="['/label', label.id, 'view']">{{ label.id }}</a>
+                    </td>
+                    <td>{{ label.label }}</td>
+                    <td class="text-right">
+                        <div class="btn-group">
+                            <button [routerLink]="['/label', label.id, 'view']" class="btn btn-info btn-sm"
+                                    data-cy="entityDetailsButton" type="submit">
+                                <fa-icon icon="eye"></fa-icon>
+                                <span class="d-none d-md-inline" jhiTranslate="entity.action.view">View</span>
+                            </button>
+
+                            <button [routerLink]="['/label', label.id, 'edit']" class="btn btn-primary btn-sm"
+                                    data-cy="entityEditButton" type="submit">
+                                <fa-icon icon="pencil-alt"></fa-icon>
+                                <span class="d-none d-md-inline" jhiTranslate="entity.action.edit">Edit</span>
+                            </button>
+
+                            <button (click)="delete(label)" class="btn btn-danger btn-sm" data-cy="entityDeleteButton"
+                                    type="submit">
+                                <fa-icon icon="times"></fa-icon>
+                                <span class="d-none d-md-inline" jhiTranslate="entity.action.delete">Delete</span>
+                            </button>
+                        </div>
+                    </td>
+                </tr>
+            </tbody>
+        </table>
+    </div>
+</div>

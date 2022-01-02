@@ -1,0 +1,138 @@
+<div class="row justify-content-center">
+    <div class="col-8">
+        <form (ngSubmit)="save()" [formGroup]="editForm" name="editForm" novalidate role="form">
+            <h2 data-cy="TicketCreateUpdateHeading" id="jhi-ticket-heading"
+                jhiTranslate="bugTrackerJHipsterApp.ticket.home.createOrEditLabel">
+                Create or edit a Ticket
+            </h2>
+
+            <div>
+                <jhi-alert-error></jhi-alert-error>
+
+                <div [hidden]="editForm.get('id')!.value == null" class="form-group">
+                    <label class="form-control-label" for="field_id" jhiTranslate="global.field.id">ID</label>
+                    <input [readonly]="true" class="form-control" data-cy="id" formControlName="id" id="field_id"
+                           name="id" type="number"/>
+                </div>
+
+                <div class="form-group">
+                    <label class="form-control-label" for="field_title"
+                           jhiTranslate="bugTrackerJHipsterApp.ticket.title">Title</label>
+                    <input class="form-control" data-cy="title" formControlName="title" id="field_title" name="title"
+                           type="text"/>
+                    <div
+                        *ngIf="editForm.get('title')!.invalid && (editForm.get('title')!.dirty || editForm.get('title')!.touched)">
+                        <small *ngIf="editForm.get('title')?.errors?.required" class="form-text text-danger"
+                               jhiTranslate="entity.validation.required">
+                            This field is required.
+                        </small>
+                    </div>
+                </div>
+
+                <div class="form-group">
+                    <label class="form-control-label" for="field_description"
+                           jhiTranslate="bugTrackerJHipsterApp.ticket.description"
+                    >Description</label
+                    >
+                    <input
+                        class="form-control"
+                        data-cy="description"
+                        formControlName="description"
+                        id="field_description"
+                        name="description"
+                        type="text"
+                    />
+                </div>
+
+                <div class="form-group">
+                    <label class="form-control-label" for="field_dueDate"
+                           jhiTranslate="bugTrackerJHipsterApp.ticket.dueDate">Due Date</label>
+                    <div class="input-group">
+                        <input
+                            #dueDateDp="ngbDatepicker"
+                            class="form-control"
+                            data-cy="dueDate"
+                            formControlName="dueDate"
+                            id="field_dueDate"
+                            name="dueDate"
+                            ngbDatepicker
+                            type="text"
+                        />
+                        <span class="input-group-append">
+              <button (click)="dueDateDp.toggle()" class="btn btn-secondary" type="button"><fa-icon
+                  icon="calendar-alt"></fa-icon></button>
+            </span>
+                    </div>
+                </div>
+
+                <div class="form-group">
+                    <label class="form-control-label" for="field_done" jhiTranslate="bugTrackerJHipsterApp.ticket.done">Done</label>
+                    <input class="form-check" data-cy="done" formControlName="done" id="field_done" name="done"
+                           type="checkbox"/>
+                </div>
+
+                <div class="form-group">
+                    <label class="form-control-label" for="field_project"
+                           jhiTranslate="bugTrackerJHipsterApp.ticket.project">Project</label>
+                    <select class="form-control" data-cy="project" formControlName="project" id="field_project"
+                            name="project">
+                        <option [ngValue]="null"></option>
+                        <option
+                            *ngFor="let projectOption of projectsSharedCollection; trackBy: trackProjectById"
+                            [ngValue]="projectOption.id === editForm.get('project')!.value?.id ? editForm.get('project')!.value : projectOption"
+                        >
+                            {{ projectOption.name }}
+                        </option>
+                    </select>
+                </div>
+
+                <div class="form-group">
+                    <label class="form-control-label" for="field_assignedTo"
+                           jhiTranslate="bugTrackerJHipsterApp.ticket.assignedTo"
+                    >Assigned To</label
+                    >
+                    <select class="form-control" data-cy="assignedTo" formControlName="assignedTo" id="field_assignedTo"
+                            name="assignedTo">
+                        <option [ngValue]="null"></option>
+                        <option
+                            *ngFor="let userOption of usersSharedCollection; trackBy: trackUserById"
+                            [ngValue]="userOption.id === editForm.get('assignedTo')!.value?.id ? editForm.get('assignedTo')!.value : userOption"
+                        >
+                            {{ userOption.login }}
+                        </option>
+                    </select>
+                </div>
+
+                <div class="form-group">
+                    <label for="field_labels" jhiTranslate="bugTrackerJHipsterApp.ticket.label">Label</label>
+                    <select class="form-control" data-cy="label" formControlName="labels" id="field_labels" multiple
+                            name="labels">
+                        <option
+                            *ngFor="let labelOption of labelsSharedCollection; trackBy: trackLabelById"
+                            [ngValue]="getSelectedLabel(labelOption, editForm.get('labels')!.value)"
+                        >
+                            {{ labelOption.label }}
+                        </option>
+                    </select>
+                </div>
+            </div>
+
+            <div>
+                <button (click)="previousState()" class="btn btn-secondary" data-cy="entityCreateCancelButton"
+                        id="cancel-save" type="button">
+                    <fa-icon icon="ban"></fa-icon>&nbsp;<span jhiTranslate="entity.action.cancel">Cancel</span>
+                </button>
+
+                <button
+                    [disabled]="editForm.invalid || isSaving"
+                    class="btn btn-primary"
+                    data-cy="entityCreateSaveButton"
+                    id="save-entity"
+                    type="submit"
+                >
+                    <fa-icon icon="save"></fa-icon>&nbsp;<span jhiTranslate="entity.action.save">Save</span>
+                </button>
+            </div>
+        </form>
+    </div>
+</div>

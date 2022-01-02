@@ -1,7 +1,8 @@
 package com.alassaneniang.bugtracker.config;
 
-import java.time.Duration;
-import org.ehcache.config.builders.*;
+import org.ehcache.config.builders.CacheConfigurationBuilder;
+import org.ehcache.config.builders.ExpiryPolicyBuilder;
+import org.ehcache.config.builders.ResourcePoolsBuilder;
 import org.ehcache.jsr107.Eh107Configuration;
 import org.hibernate.cache.jcache.ConfigSettings;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -11,12 +12,12 @@ import org.springframework.boot.info.BuildProperties;
 import org.springframework.boot.info.GitProperties;
 import org.springframework.cache.annotation.EnableCaching;
 import org.springframework.cache.interceptor.KeyGenerator;
-import org.springframework.cloud.client.ServiceInstance;
-import org.springframework.cloud.client.discovery.DiscoveryClient;
-import org.springframework.cloud.client.serviceregistry.Registration;
-import org.springframework.context.annotation.*;
+import org.springframework.context.annotation.Bean;
+import org.springframework.context.annotation.Configuration;
 import tech.jhipster.config.JHipsterProperties;
 import tech.jhipster.config.cache.PrefixedKeyGenerator;
+
+import java.time.Duration;
 
 @Configuration
 @EnableCaching
@@ -26,7 +27,7 @@ public class CacheConfiguration {
     private BuildProperties buildProperties;
     private final javax.cache.configuration.Configuration<Object, Object> jcacheConfiguration;
 
-    public CacheConfiguration(JHipsterProperties jHipsterProperties) {
+    public CacheConfiguration ( JHipsterProperties jHipsterProperties ) {
         JHipsterProperties.Cache.Ehcache ehcache = jHipsterProperties.getCache().getEhcache();
 
         jcacheConfiguration =
@@ -46,11 +47,16 @@ public class CacheConfiguration {
     @Bean
     public JCacheManagerCustomizer cacheManagerCustomizer() {
         return cm -> {
-            createCache(cm, com.alassaneniang.bugtracker.repository.UserRepository.USERS_BY_LOGIN_CACHE);
-            createCache(cm, com.alassaneniang.bugtracker.repository.UserRepository.USERS_BY_EMAIL_CACHE);
-            createCache(cm, com.alassaneniang.bugtracker.domain.User.class.getName());
-            createCache(cm, com.alassaneniang.bugtracker.domain.Authority.class.getName());
-            createCache(cm, com.alassaneniang.bugtracker.domain.User.class.getName() + ".authorities");
+            createCache( cm, com.alassaneniang.bugtracker.repository.UserRepository.USERS_BY_LOGIN_CACHE );
+            createCache( cm, com.alassaneniang.bugtracker.repository.UserRepository.USERS_BY_EMAIL_CACHE );
+            createCache( cm, com.alassaneniang.bugtracker.domain.User.class.getName() );
+            createCache( cm, com.alassaneniang.bugtracker.domain.Authority.class.getName() );
+            createCache( cm, com.alassaneniang.bugtracker.domain.User.class.getName() + ".authorities" );
+            createCache( cm, com.alassaneniang.bugtracker.domain.Project.class.getName() );
+            createCache( cm, com.alassaneniang.bugtracker.domain.Label.class.getName() );
+            createCache( cm, com.alassaneniang.bugtracker.domain.Label.class.getName() + ".tickets" );
+            createCache( cm, com.alassaneniang.bugtracker.domain.Ticket.class.getName() );
+            createCache( cm, com.alassaneniang.bugtracker.domain.Ticket.class.getName() + ".labels" );
             // jhipster-needle-ehcache-add-entry
         };
     }

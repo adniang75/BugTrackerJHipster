@@ -31,16 +31,25 @@
     "messageBroker": false,
     "enableSwaggerCodegen": false,
     "clientFramework": "angularX",
-    "withAdminUi": true,
-    "clientTheme": "none",
-    "enableTranslation": true,
-    "nativeLanguage": "en",
-    "jwtSecretKey": "Zjg5NThkMjQwMDVmZjY1ODJjNTI2Y2NhOWZlOTMxMzNlNTZhMjY2ZjU2N2U1YzhlYzZmN2Q3MzYxMzdiYzExNGJjMDVkYTE4ODRiOGRiYWY3MjllZWEwMTgzZjRmNWQzMjMwMjNiM2U2YTJkZmY5ZmM1NjU1NTRmMDRjYmJkYTQ=",
-    "devServerPort": 4200,
-    "clientPackageManager": "npm",
-    "clientThemeVariant": "",
-    "languages": ["en", "fr"],
-    "enableGradleEnterprise": false,
-    "cypressCoverage": false
+      "withAdminUi": true,
+      "clientTheme": "none",
+      "enableTranslation": true,
+      "nativeLanguage": "en",
+      "jwtSecretKey": "Zjg5NThkMjQwMDVmZjY1ODJjNTI2Y2NhOWZlOTMxMzNlNTZhMjY2ZjU2N2U1YzhlYzZmN2Q3MzYxMzdiYzExNGJjMDVkYTE4ODRiOGRiYWY3MjllZWEwMTgzZjRmNWQzMjMwMjNiM2U2YTJkZmY5ZmM1NjU1NTRmMDRjYmJkYTQ=",
+      "devServerPort": 4200,
+      "clientPackageManager": "npm",
+      "clientThemeVariant": "",
+      "languages": [
+          "en",
+          "fr"
+      ],
+      "enableGradleEnterprise": false,
+      "cypressCoverage": false,
+      "entities": [
+          "Project",
+          "Label",
+          "Ticket"
+      ],
+      "lastLiquibaseTimestamp": 1641160978000
   }
 }
