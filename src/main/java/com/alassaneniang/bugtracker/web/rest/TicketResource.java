@@ -2,6 +2,7 @@ package com.alassaneniang.bugtracker.web.rest;
 
 import com.alassaneniang.bugtracker.domain.Ticket;
 import com.alassaneniang.bugtracker.repository.TicketRepository;
+import com.alassaneniang.bugtracker.security.AuthoritiesConstants;
 import com.alassaneniang.bugtracker.web.rest.errors.BadRequestAlertException;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -11,6 +12,7 @@ import org.springframework.data.domain.PageImpl;
 import org.springframework.data.domain.Pageable;
 import org.springframework.http.HttpHeaders;
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.access.annotation.Secured;
 import org.springframework.transaction.annotation.Transactional;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.servlet.support.ServletUriComponentsBuilder;
@@ -196,6 +198,7 @@ public class TicketResource {
      * @return the {@link ResponseEntity} with status {@code 204 (NO_CONTENT)}.
      */
     @DeleteMapping( "/tickets/{id}" )
+    @Secured( AuthoritiesConstants.ADMIN )
     public ResponseEntity<Void> deleteTicket ( @PathVariable Long id ) {
         log.debug( "REST request to delete Ticket : {}", id );
         ticketRepository.deleteById( id );
